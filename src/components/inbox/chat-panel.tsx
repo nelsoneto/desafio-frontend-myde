@@ -37,7 +37,7 @@ export function ChatPanel({ conversation, messages, isLoading, isError, onBack, 
   }
 
   return (
-    <section className="flex min-h-0 flex-1 flex-col rounded-[1.25rem] border border-white/70 bg-[linear-gradient(180deg,#f8fbff_0%,#ffffff_24%,#f6f8fb_100%)] shadow-[0_24px_80px_rgba(15,23,42,0.1)] backdrop-blur">
+    <section className="flex min-h-0 flex-1 flex-col rounded-[1.25rem] border border-blue-200/70 bg-[linear-gradient(180deg,#f8fbff_0%,#ffffff_24%,#f6f8fb_100%)] shadow-[0_24px_80px_rgba(15,23,42,0.1)] backdrop-blur">
       <header className="flex items-center gap-4 border-b border-slate-200/80 px-5 py-4">
         <button
           type="button"

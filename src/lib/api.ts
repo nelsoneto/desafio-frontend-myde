@@ -7,8 +7,7 @@ import {
 } from "./types";
 
 const API_URL =
-  process.env.NEXT_PUBLIC_API_URL ??
-  "https://8tymn68hp9.execute-api.us-east-1.amazonaws.com";
+  process.env.NEXT_PUBLIC_API_URL;
 
 type ApiErrorPayload = {
   message?: string;
