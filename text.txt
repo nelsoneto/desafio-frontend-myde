@@ -1,0 +1,10 @@
+Desenvolvedor backend
+https://github.com/myde-tech/desafio-backend-nodejs
+ 
+Desenvolvedor frontend
+https://github.com/myde-tech/desafio-frontend-nextjs
+Prazo máximo da entrega do teste: 19/jun/2026
+ 
+Enviar o projeto por e-mail para: caldas@myde.tech com os itens solicitados e url do seu respositório github (público)
+ 
+Assunto do e-mail: “Avaliação técnica – Desenvolvedor {frontend} {backend} – {seu nome completo}” e CPF
