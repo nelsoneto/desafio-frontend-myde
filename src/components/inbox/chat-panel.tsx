@@ -97,7 +97,7 @@ export function ChatPanel({ conversation, messages, isLoading, isError, onBack, 
                   <article
                     className={cn(
                       "max-w-[85%] rounded-2xl px-4 py-3 shadow-sm sm:max-w-[70%]",
-                      isAgent ? "bg-primary text-white" : "bg-surface text-title",
+                      isAgent ? "bg-primary text-white" : "bg-surface-muted text-title",
                     )}
                   >
                     <p className="text-sm leading-6">{message.body}</p>
