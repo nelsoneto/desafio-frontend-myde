@@ -2,6 +2,17 @@
 
 > **Inbox de Atendimento WhatsApp com IA** — construa a interface; o backend já está pronto.
 
+## Arquitetura da implementação
+
+Esta entrega foi organizada em torno de um container principal leve em [src/components/inbox/inbox-app.tsx](e:/Projetos/desafio/desafio-frontend-myde/src/components/inbox/inbox-app.tsx) e de componentes menores para a interface de inbox.
+
+- [src/components/inbox/conversation-list.tsx](e:/Projetos/desafio/desafio-frontend-myde/src/components/inbox/conversation-list.tsx) concentra a lista de conversas, busca local e estados de carregamento/erro/vazio da lateral.
+- [src/components/inbox/chat-panel.tsx](e:/Projetos/desafio/desafio-frontend-myde/src/components/inbox/chat-panel.tsx) concentra o cabeçalho do chat, o histórico de mensagens e o auto-scroll.
+- [src/components/inbox/message-composer.tsx](e:/Projetos/desafio/desafio-frontend-myde/src/components/inbox/message-composer.tsx) concentra envio de mensagem, sugestão com IA e feedback do usuário.
+- [src/components/inbox/inbox-states.tsx](e:/Projetos/desafio/desafio-frontend-myde/src/components/inbox/inbox-states.tsx) centraliza os estados compartilhados de vazio e erro.
+
+Os dados continuam fluindo por React Query: [src/hooks/use-conversations.ts](e:/Projetos/desafio/desafio-frontend-myde/src/hooks/use-conversations.ts) e [src/hooks/use-messages.ts](e:/Projetos/desafio/desafio-frontend-myde/src/hooks/use-messages.ts) fazem o polling, [src/hooks/use-send-message.ts](e:/Projetos/desafio/desafio-frontend-myde/src/hooks/use-send-message.ts) aplica update otimista com rollback e [src/hooks/use-ai-suggest.ts](e:/Projetos/desafio/desafio-frontend-myde/src/hooks/use-ai-suggest.ts) preenche o rascunho de resposta.
+
 Bem-vindo(a)! Neste desafio você vai construir o **frontend** de um painel de atendimento via
 WhatsApp, parecido com o que usamos no dia a dia. **O backend já está implementado e hospedado**
 — você foca 100% na experiência, na arquitetura de componentes e nas decisões de frontend.
