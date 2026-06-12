@@ -38,7 +38,7 @@ export function InboxApp() {
   }, [conversationsQuery.data, deferredSearchTerm]);
 
   return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_top_left,#d9f4ff_0%,#f7f7ef_38%,#eff4ff_100%)] px-4 py-4 text-slate-900 sm:px-6 lg:px-8 lg:py-8">
+    <main className="min-h-screen bg-background px-4 py-4 text-title sm:px-6 lg:px-8 lg:py-8">
       <div className="mx-auto flex min-h-[calc(100vh-2rem)] max-w-7xl flex-col gap-4 lg:min-h-[calc(100vh-4rem)] lg:flex-row">
         <div className={cn("min-h-0 lg:flex", selectedConversationId ? "hidden lg:flex" : "flex")}>
           <ConversationList
@@ -55,33 +55,33 @@ export function InboxApp() {
 
         <div className={cn("min-h-0 flex-1", selectedConversationId ? "flex" : "hidden lg:flex")}>
           <div className="flex min-h-0 flex-1 flex-col gap-4">
-            <section className="rounded-[1.25rem] border border-white/70 bg-white/75 px-5 py-4 shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur">
+            <section className="rounded-[1.25rem] border border-border bg-surface px-5 py-4 shadow-sm">
               <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.28em] text-sky-700">
+                  <p className="text-xs font-semibold uppercase tracking-[0.28em] text-primary">
                     Painel ativo
                   </p>
-                  <h1 className="mt-2 text-2xl font-semibold tracking-tight text-slate-950">
+                  <h1 className="mt-2 text-2xl font-semibold tracking-tight text-title">
                     {profileQuery.data?.name ?? "Carregando atendente..."}
                   </h1>
-                  <p className="mt-1 text-sm text-slate-500">
+                  <p className="mt-1 text-sm text-muted">
                     {profileQuery.data?.role ?? "Sincronizando perfil com a API online."}
                   </p>
                 </div>
 
-                <div className="flex flex-wrap gap-3 text-sm text-slate-600">
-                  <div className="rounded-xl bg-slate-100 px-3 py-2">
+                <div className="flex flex-wrap gap-3 text-sm text-muted">
+                  <div className="rounded-xl bg-surface-muted px-3 py-2">
                     {conversationsQuery.data?.length ?? 0} conversas monitoradas
                   </div>
-                  <div className="rounded-xl bg-sky-100 px-3 py-2 text-sky-900">
+                  <div className="rounded-xl bg-green-500/10 px-3 py-2 text-green-500">
                     {selectedConversation ? "Chat em foco" : "Nenhum chat selecionado"}
                   </div>
                   <div
                     className={cn(
                       "rounded-xl px-3 py-2",
                       profileQuery.isError
-                        ? "bg-rose-100 text-rose-700"
-                        : "bg-emerald-100 text-emerald-700",
+                        ? "bg-surface-muted text-muted"
+                        : "bg-green-500/10 text-green-500",
                     )}
                   >
                     {profileQuery.isError ? "API instavel" : "API conectada"}

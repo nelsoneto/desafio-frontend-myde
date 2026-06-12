@@ -37,12 +37,12 @@ export function ChatPanel({ conversation, messages, isLoading, isError, onBack, 
   }
 
   return (
-    <section className="flex min-h-0 flex-1 flex-col rounded-[1.25rem] border border-blue-200/70 bg-[linear-gradient(180deg,#f8fbff_0%,#ffffff_24%,#f6f8fb_100%)] shadow-[0_24px_80px_rgba(15,23,42,0.1)] backdrop-blur">
-      <header className="flex items-center gap-4 border-b border-slate-200/80 px-5 py-4">
+    <section className="flex min-h-0 flex-1 flex-col rounded-[1.25rem] border border-border bg-surface shadow-sm">
+      <header className="flex items-center gap-4 border-b border-border px-5 py-4">
         <button
           type="button"
           onClick={onBack}
-          className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 transition hover:border-slate-300 hover:text-slate-950 lg:hidden"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-surface-muted text-muted transition hover:text-title lg:hidden"
           aria-label="Voltar para a lista de conversas"
         >
           ←
@@ -54,10 +54,10 @@ export function ChatPanel({ conversation, messages, isLoading, isError, onBack, 
           {getInitials(conversation.contactName)}
         </div>
         <div className="min-w-0 flex-1">
-          <h2 className="truncate text-lg font-semibold text-slate-950">{conversation.contactName}</h2>
-          <p className="truncate text-sm text-slate-500">{formatPhoneNumber(conversation.contactPhone)}</p>
+          <h2 className="truncate text-lg font-semibold text-title">{conversation.contactName}</h2>
+          <p className="truncate text-sm text-muted">{formatPhoneNumber(conversation.contactPhone)}</p>
         </div>
-        <div className="hidden rounded-xl bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700 sm:block">
+        <div className="hidden rounded-xl bg-green-500/10 px-3 py-1 text-xs font-medium text-green-500 sm:block">
           Sincronizacao ativa
         </div>
       </header>
@@ -66,8 +66,8 @@ export function ChatPanel({ conversation, messages, isLoading, isError, onBack, 
         {isLoading ? (
           <div className="space-y-3">
             {Array.from({ length: 5 }).map((_, index) => (
-              <div key={index} className={cn("flex", index % 2 === 0 ? "justify-start" : "justify-end")}>
-                <div className="h-20 w-full max-w-md animate-pulse rounded-2xl bg-slate-200/80" />
+              <div key={index} className={cn("flex", index % 2 === 0 ? "justify-start" : "justify-end")}> 
+                <div className="h-20 w-full max-w-md animate-pulse rounded-2xl bg-surface-muted" />
               </div>
             ))}
           </div>
@@ -97,14 +97,14 @@ export function ChatPanel({ conversation, messages, isLoading, isError, onBack, 
                   <article
                     className={cn(
                       "max-w-[85%] rounded-2xl px-4 py-3 shadow-sm sm:max-w-[70%]",
-                      isAgent ? "bg-slate-950 text-white" : "bg-white text-slate-900",
+                      isAgent ? "bg-primary text-white" : "bg-surface text-title",
                     )}
                   >
                     <p className="text-sm leading-6">{message.body}</p>
                     <div
                       className={cn(
                         "mt-2 flex items-center justify-end gap-2 text-[11px] font-medium",
-                        isAgent ? "text-slate-300" : "text-slate-500",
+                        isAgent ? "text-white/70" : "text-muted",
                       )}
                     >
                       <span>{formatMessageStatus(message.status)}</span>
@@ -119,11 +119,11 @@ export function ChatPanel({ conversation, messages, isLoading, isError, onBack, 
       </div>
 
       {isError ? (
-        <div className="border-t border-slate-200/80 px-5 py-4">
+        <div className="border-t border-border px-5 py-4">
           <button
             type="button"
             onClick={onRetry}
-            className="rounded-xl bg-slate-950 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-800"
+            className="rounded-xl bg-primary px-4 py-2 text-sm font-medium text-white transition hover:bg-primary-hover"
           >
             Recarregar conversa
           </button>

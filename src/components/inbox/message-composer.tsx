@@ -49,8 +49,8 @@ export function MessageComposer({ conversationId, disabled }: MessageComposerPro
   }
 
   return (
-    <form onSubmit={handleSubmit} className="border-t border-slate-200/80 px-5 py-4">
-      <div className="rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_18px_48px_rgba(15,23,42,0.08)]">
+    <form onSubmit={handleSubmit} className="border-t border-border px-5 py-4">
+      <div className="rounded-2xl border border-border bg-surface p-3 shadow-sm">
         <label className="sr-only" htmlFor="message-draft">
           Responder conversa
         </label>
@@ -61,20 +61,20 @@ export function MessageComposer({ conversationId, disabled }: MessageComposerPro
           onChange={(event) => setDraft(event.target.value)}
           placeholder="Escreva uma resposta clara e objetiva..."
           disabled={disabled || sendMessageMutation.isPending}
-          className="w-full resize-none border-none bg-transparent px-2 py-2 text-sm leading-6 text-slate-900 outline-none placeholder:text-slate-400"
+          className="w-full resize-none border-none bg-transparent px-2 py-2 text-sm leading-6 text-title outline-none placeholder:text-muted"
         />
 
-        <div className="flex flex-col gap-3 border-t border-slate-100 pt-3 md:flex-row md:items-center md:justify-between">
+        <div className="flex flex-col gap-3 border-t border-border pt-3 md:flex-row md:items-center md:justify-between">
           <div className="flex flex-wrap items-center gap-2">
             <button
               type="button"
               onClick={handleSuggest}
               disabled={disabled || aiSuggestMutation.isPending}
-              className="rounded-xl border border-sky-200 bg-sky-50 px-4 py-2 text-sm font-medium text-sky-800 transition hover:border-sky-300 hover:bg-sky-100 disabled:cursor-not-allowed disabled:opacity-50"
+              className="rounded-xl border border-blue-400/20 bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-blue-950/40 transition hover:bg-blue-500 hover:shadow-blue-500/20 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {aiSuggestMutation.isPending ? "Gerando sugestao..." : "Sugerir com IA"}
             </button>
-            <span className="text-xs text-slate-500">
+            <span className="text-xs text-muted">
               A IA preenche o texto; o envio continua manual.
             </span>
           </div>
@@ -82,14 +82,14 @@ export function MessageComposer({ conversationId, disabled }: MessageComposerPro
           <button
             type="submit"
             disabled={disabled || sendMessageMutation.isPending || !draft.trim()}
-            className="inline-flex items-center justify-center rounded-xl bg-slate-950 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-50"
+            className="inline-flex items-center justify-center rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-50"
           >
             {sendMessageMutation.isPending ? "Enviando..." : "Enviar mensagem"}
           </button>
         </div>
       </div>
 
-      <p aria-live="polite" className="mt-3 min-h-5 text-sm text-slate-500">
+      <p aria-live="polite" className="mt-3 min-h-5 text-sm text-muted">
         {feedback}
       </p>
     </form>
