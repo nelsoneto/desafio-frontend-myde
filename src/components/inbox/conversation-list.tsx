@@ -26,7 +26,7 @@ export function ConversationList({
   return (
     <aside className="flex h-full min-h-0 w-full flex-col rounded-[1.25rem] border border-border bg-surface p-4 shadow-sm lg:max-w-95">
       <div className="px-2 pb-4 pt-2">
-        <p className="text-xs font-semibold uppercase tracking-[0.28em] text-primary">
+        <p className="text-xs font-bold uppercase tracking-[0.28em] text-primary">
           Conversas
         </p>
         <div className="mt-3 flex items-end justify-between gap-3">

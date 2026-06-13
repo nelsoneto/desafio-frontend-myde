@@ -82,10 +82,12 @@ export function InboxApp() {
 
                 <div className="flex flex-wrap gap-3 text-sm text-muted">
                   <div className="rounded-xl bg-surface-muted px-3 py-2">
-                    {conversationsQuery.data?.length ?? 0} conversas monitoradas
+                    
+                      {conversationsQuery.data?.length ?? 0} conversas monitoradas
+                    
                   </div>
                   <div className="rounded-xl bg-green-500/10 px-3 py-2 text-green-500">
-                    {selectedConversation ? "Chat em foco" : "Nenhum chat selecionado"}
+                      {selectedConversation ? "Chat em foco" : "Nenhum chat selecionado"}
                   </div>
                   <div
                     className={cn(
