@@ -1,6 +1,9 @@
 import { useEffect, useRef } from "react";
 import { EmptyState } from "@/components/inbox/inbox-states";
 import { MessageComposer } from "@/components/inbox/message-composer";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { type Conversation, type Message } from "@/lib/types";
 import { cn, formatMessageStatus, formatMessageTime, formatPhoneNumber, getInitials } from "@/lib/utils";
 
@@ -39,14 +42,16 @@ export function ChatPanel({ conversation, messages, isLoading, isError, onBack, 
   return (
     <section className="flex min-h-0 flex-1 flex-col rounded-[1.25rem] border border-border bg-surface shadow-sm">
       <header className="flex items-center gap-4 border-b border-border px-5 py-4">
-        <button
+        <Button
           type="button"
           onClick={onBack}
-          className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-surface-muted text-muted transition hover:text-title lg:hidden"
+          variant="outline"
+          size="icon"
+          className="text-muted hover:text-title lg:hidden"
           aria-label="Voltar para a lista de conversas"
         >
           ←
-        </button>
+        </Button>
         <div
           className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-sm font-semibold text-white"
           style={{ backgroundColor: conversation.avatarColor }}
@@ -57,17 +62,17 @@ export function ChatPanel({ conversation, messages, isLoading, isError, onBack, 
           <h2 className="truncate text-lg font-semibold text-title">{conversation.contactName}</h2>
           <p className="truncate text-sm text-muted">{formatPhoneNumber(conversation.contactPhone)}</p>
         </div>
-        <div className="hidden rounded-xl bg-green-500/10 px-3 py-1 text-xs font-medium text-green-500 sm:block">
+        <Badge variant="success" className="hidden font-medium sm:inline-flex">
           Sincronizacao ativa
-        </div>
+        </Badge>
       </header>
 
       <div ref={scrollRef} className="min-h-0 flex-1 overflow-y-auto px-4 py-5 sm:px-6">
         {isLoading ? (
           <div className="space-y-3">
             {Array.from({ length: 5 }).map((_, index) => (
-              <div key={index} className={cn("flex", index % 2 === 0 ? "justify-start" : "justify-end")}> 
-                <div className="h-20 w-full max-w-md animate-pulse rounded-2xl bg-surface-muted" />
+              <div key={index} className={cn("flex", index % 2 === 0 ? "justify-start" : "justify-end")}>
+                <Skeleton className="h-20 w-full max-w-md rounded-2xl" />
               </div>
             ))}
           </div>
@@ -120,13 +125,13 @@ export function ChatPanel({ conversation, messages, isLoading, isError, onBack, 
 
       {isError ? (
         <div className="border-t border-border px-5 py-4">
-          <button
+          <Button
             type="button"
             onClick={onRetry}
-            className="rounded-xl bg-primary px-4 py-2 text-sm font-medium text-white transition hover:bg-primary-hover"
+            className="px-4"
           >
             Recarregar conversa
-          </button>
+          </Button>
         </div>
       ) : (
         <MessageComposer conversationId={conversation.id} disabled={false} />

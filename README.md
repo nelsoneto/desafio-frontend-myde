@@ -1,110 +1,182 @@
-# Desafio Técnico — Desenvolvedor(a) Frontend (Next.js)
+# Inbox de Atendimento WhatsApp | Myde
 
-> **Inbox de Atendimento WhatsApp com IA** — construa a interface; o backend já está pronto.
+Aplicação frontend em Next.js para atendimento via WhatsApp com lista de conversas, histórico de mensagens, envio com atualização otimista e sugestão de resposta com IA.
 
-## Arquitetura da implementação
+O briefing original do desafio foi preservado em [README.challenge.md](README.challenge.md). Este arquivo passa a ser o guia principal para instalar, executar e validar o projeto.
 
-Esta entrega foi organizada em torno de um container principal leve em [src/components/inbox/inbox-app.tsx](e:/Projetos/desafio/desafio-frontend-myde/src/components/inbox/inbox-app.tsx) e de componentes menores para a interface de inbox.
+## Visão geral
 
-- [src/components/inbox/conversation-list.tsx](e:/Projetos/desafio/desafio-frontend-myde/src/components/inbox/conversation-list.tsx) concentra a lista de conversas, busca local e estados de carregamento/erro/vazio da lateral.
-- [src/components/inbox/chat-panel.tsx](e:/Projetos/desafio/desafio-frontend-myde/src/components/inbox/chat-panel.tsx) concentra o cabeçalho do chat, o histórico de mensagens e o auto-scroll.
-- [src/components/inbox/message-composer.tsx](e:/Projetos/desafio/desafio-frontend-myde/src/components/inbox/message-composer.tsx) concentra envio de mensagem, sugestão com IA e feedback do usuário.
-- [src/components/inbox/inbox-states.tsx](e:/Projetos/desafio/desafio-frontend-myde/src/components/inbox/inbox-states.tsx) centraliza os estados compartilhados de vazio e erro.
+- Framework: Next.js 16 com App Router.
+- Linguagem: TypeScript.
+- Estado assíncrono: React Query.
+- UI: Tailwind CSS 4 com componentes base inspirados em shadcn/ui e primitives do Radix.
+- Integração externa: API hospedada em AWS via `NEXT_PUBLIC_API_URL`.
 
-Os dados continuam fluindo por React Query: [src/hooks/use-conversations.ts](e:/Projetos/desafio/desafio-frontend-myde/src/hooks/use-conversations.ts) e [src/hooks/use-messages.ts](e:/Projetos/desafio/desafio-frontend-myde/src/hooks/use-messages.ts) fazem o polling, [src/hooks/use-send-message.ts](e:/Projetos/desafio/desafio-frontend-myde/src/hooks/use-send-message.ts) aplica update otimista com rollback e [src/hooks/use-ai-suggest.ts](e:/Projetos/desafio/desafio-frontend-myde/src/hooks/use-ai-suggest.ts) preenche o rascunho de resposta.
+## Pré-requisitos
 
-Bem-vindo(a)! Neste desafio você vai construir o **frontend** de um painel de atendimento via
-WhatsApp, parecido com o que usamos no dia a dia. **O backend já está implementado e hospedado**
-— você foca 100% na experiência, na arquitetura de componentes e nas decisões de frontend.
+- Node.js 20 ou superior.
+- npm 10 ou superior.
+- Acesso à internet para consumir a API hospedada.
 
-Não buscamos pixel-perfect. Buscamos entender **como você pensa** em Next.js: o que é Server
-e o que é Client Component, como busca e sincroniza dados, como trata estados de carregamento
-e erro, e como organiza o código.
+## Configuração do ambiente
 
----
+O projeto já possui os arquivos `.env` e `.env.example` com a URL da API configurada.
 
-## 🎯 O que você vai construir
+Valor esperado:
 
-Um app **Next.js (App Router)** que consome a API fornecida e entrega:
-
-1. **Lista de conversas** — contato, última mensagem, horário, indicador de não-lidas, busca/filtro.
-2. **Tela de chat** — histórico de mensagens (bolhas separando cliente × atendente), timestamps.
-3. **Envio de mensagem** — com **atualização otimista** (a mensagem aparece antes da confirmação).
-4. **Sugerir resposta com IA** — botão que chama `/ai/suggest` e preenche o campo com a sugestão
-   (o backend faz o proxy da OpenAI; a chave nunca chega ao browser).
-5. **Estados** — loading, erro e vazio bem tratados; acessibilidade básica.
-6. **Atualização** — manter a lista e o chat atualizados (polling com React Query já é
-   suficiente; soluções melhores são diferencial — explique sua escolha).
-
----
-
-## 🔌 Backend fornecido
-
-Você **não precisa** implementar nem rodar o backend — ele já está no ar.
-
-**URL da API (já configurada para você):**
-
-```
+```env
 NEXT_PUBLIC_API_URL=https://8tymn68hp9.execute-api.us-east-1.amazonaws.com
 ```
 
-| Método | Rota | Descrição |
-|--------|------|-----------|
-| GET | `/me` | Perfil do atendente logado |
-| GET | `/conversations` | Lista de conversas |
-| GET | `/conversations/:id/messages` | Mensagens de uma conversa |
-| POST | `/conversations/:id/messages` | Envia mensagem `{ text }` |
-| POST | `/ai/suggest` | Sugestão da IA `{ conversationId }` |
+Se quiser seguir o fluxo padrão do Next.js com arquivo local:
 
-O cliente HTTP e os tipos já vêm prontos em [`lib/api.ts`](lib/api.ts). Se preferir rodar o
-backend localmente (offline), veja [`server/README.md`](server/README.md).
+### PowerShell
 
----
-
-## 🚀 Como começar
-
-```bash
-# 1. Configure a URL da API (já vem preenchida com a URL hospedada)
-cp .env.example .env.local
-
-# 2. Instale e rode
-npm install
-npm run dev          # http://localhost:3000
+```powershell
+Copy-Item .env.example .env.local
 ```
 
-Abra <http://localhost:3000> — a página inicial faz uma **verificação de conexão** com a API.
-Se aparecer "✓ Conectado", está tudo pronto para você construir.
+### Git Bash
 
-> O que já entregamos: projeto Next.js configurado (App Router, Tailwind, React Query, Axios),
-> `lib/api.ts` tipado e um exemplo mínimo de chamada. **As telas são por sua conta.**
+```bash
+cp .env.example .env.local
+```
 
----
+## Instalação
 
-## 📤 Entrega
+Na raiz do projeto, execute:
 
-- Repositório Git com **histórico de commits real**.
-- `README.md` próprio: como rodar, decisões de arquitetura, o que faria diferente com mais tempo.
-- O app deve **buildar** (`npm run build`) sem erros.
+```bash
+npm install
+```
 
----
+## Execução em desenvolvimento
 
-## 🧮 Critérios de avaliação
+Inicie o servidor local com:
 
-| Critério | Peso | O que olhamos |
-|----------|------|---------------|
-| Arquitetura de componentes | 25% | Composição, reuso, Server vs Client Components conscientes |
-| Data fetching & estado | 25% | React Query bem usado, cache/invalidação, sem waterfalls |
-| UX & estados | 20% | Loading/erro/vazio, update otimista, responsividade, acessibilidade |
-| Qualidade do código | 20% | Tipagem, organização, naming, legibilidade |
-| Capricho & detalhes | 10% | Aquilo que faz parecer um produto de verdade |
+```bash
+npm run dev
+```
 
----
+Depois abra:
 
-## 📋 Regras
+```text
+http://localhost:3000
+```
 
-- **Prazo**: 5 dias corridos.
-- **Stack obrigatória**: Next.js (App Router) + TypeScript. UI à sua escolha (Tailwind já configurado;
-  pode usar shadcn/ui, etc.).
-- Pode usar IA como assistente — mas **você precisa entender e defender cada decisão** na entrevista.
+## O que esperar ao abrir o app
 
-Boa sorte! 🚀
+Ao carregar a aplicação, o fluxo esperado é:
+
+1. O layout global monta o `QueryClientProvider`.
+2. O app consulta o perfil do atendente em `/me`.
+3. A lista de conversas começa a sincronizar com polling.
+4. Ao selecionar uma conversa, o histórico de mensagens é carregado e também passa a sincronizar.
+5. O usuário pode enviar mensagens manualmente ou usar o botão de sugestão com IA para preencher o rascunho.
+
+Se a API estiver acessível, o painel deve mostrar o estado de conexão como ativo e renderizar conversas reais.
+
+## Scripts disponíveis
+
+```bash
+npm run dev
+npm run build
+npm run start
+npm run lint
+```
+
+### O que cada script faz
+
+- `npm run dev`: sobe o ambiente de desenvolvimento.
+- `npm run build`: gera a build de produção.
+- `npm run start`: sobe a aplicação já buildada.
+- `npm run lint`: executa o ESLint do projeto.
+
+## Fluxo recomendado para validação local
+
+1. Instale dependências com `npm install`.
+2. Rode `npm run dev`.
+3. Abra `http://localhost:3000`.
+4. Confirme se a lateral exibe conversas.
+5. Selecione uma conversa para abrir o histórico.
+6. Teste o botão `Sugerir com IA`.
+7. Teste o envio de mensagem para validar o update otimista.
+8. Execute `npm run lint`.
+9. Execute `npm run build`.
+
+## Build e execução de produção
+
+Para validar o fluxo de produção localmente:
+
+```bash
+npm run build
+npm run start
+```
+
+## Estrutura do projeto
+
+```text
+src/
+  app/
+  components/
+    inbox/
+    ui/
+  hooks/
+  lib/
+```
+
+- `src/app`: entrada do App Router, layout global e página raiz.
+- `src/components/inbox`: componentes de domínio da inbox.
+- `src/components/ui`: componentes base reutilizáveis.
+- `src/hooks`: hooks de dados e mutações com React Query.
+- `src/lib`: cliente da API, tipos, configuração do React Query e utilitários.
+
+Para uma explicação completa da arquitetura e das decisões técnicas, consulte [ARQUITETURA.md](ARQUITETURA.md).
+
+## Troubleshooting
+
+### A aplicação não sobe ou o cache do Next ficou inconsistente
+
+Se o `.next` estiver corrompido ou você quiser reinstalar tudo do zero, use um destes fluxos.
+
+### PowerShell
+
+```powershell
+Remove-Item -Recurse -Force .next
+Remove-Item -Recurse -Force node_modules
+Remove-Item -Force package-lock.json
+npm install
+npm run dev
+```
+
+### Git Bash
+
+```bash
+rm -rf .next node_modules package-lock.json
+npm install
+npm run dev
+```
+
+### A API não responde
+
+- Confirme o valor de `NEXT_PUBLIC_API_URL`.
+- Verifique sua conexão com a internet.
+- Recarregue a página depois de iniciar o app.
+- Se necessário, copie novamente `.env.example` para `.env.local`.
+
+### O lint ou build falhou
+
+Use primeiro:
+
+```bash
+npm run lint
+npm run build
+```
+
+Se o problema persistir, limpe `.next` e reinstale as dependências com o fluxo acima.
+
+## Resumo técnico
+
+Este projeto foi organizado para separar claramente responsabilidade de UI, estado assíncrono e integração com API. A lista de conversas, o chat e o composer são desacoplados em componentes específicos, enquanto os hooks encapsulam o acesso à API e a política de sincronização.
+
+As decisões de arquitetura, os motivos para uso de shadcn/primitives, React Query e IA como apoio de desenvolvimento estão detalhados em [ARQUITETURA.md](ARQUITETURA.md).

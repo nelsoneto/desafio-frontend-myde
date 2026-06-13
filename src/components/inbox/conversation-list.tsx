@@ -1,4 +1,8 @@
 import { SidebarState } from "@/components/inbox/inbox-states";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
 import { type Conversation } from "@/lib/types";
 import { cn, formatConversationTime, formatPhoneNumber, getInitials } from "@/lib/utils";
 
@@ -38,17 +42,16 @@ export function ConversationList({
               Busca local com sincronizacao periodica da API.
             </p>
           </div>
-          <div className="rounded-xl bg-green-400/10 px-3 py-1 text-xs font-medium text-green-500">
+          <Badge variant="success" className="font-medium">
             Online
-          </div>
+          </Badge>
         </div>
         <label className="mt-5 block">
           <span className="sr-only">Buscar conversas</span>
-          <input
+          <Input
             value={searchTerm}
             onChange={(event) => onSearchTermChange(event.target.value)}
             placeholder="Buscar por nome, telefone ou mensagem"
-            className="w-full rounded-xl border border-border bg-surface-muted px-4 py-3 text-sm text-title outline-none transition placeholder:text-muted focus:border-primary-hover focus:bg-surface focus:ring-4 focus:ring-blue-500/20"
           />
         </label>
       </div>
@@ -59,10 +62,10 @@ export function ConversationList({
             {Array.from({ length: 6 }).map((_, index) => (
               <div key={index} className="animate-pulse rounded-2xl border border-border bg-surface-muted p-4">
                 <div className="flex items-center gap-3">
-                  <div className="h-12 w-12 rounded-xl bg-surface" />
+                  <Skeleton className="h-12 w-12 rounded-xl bg-surface" />
                   <div className="flex-1 space-y-2">
-                    <div className="h-4 w-2/3 rounded-full bg-surface" />
-                    <div className="h-3 w-full rounded-full bg-surface" />
+                    <Skeleton className="h-4 w-2/3 rounded-full bg-surface" />
+                    <Skeleton className="h-3 w-full rounded-full bg-surface" />
                   </div>
                 </div>
               </div>
@@ -75,13 +78,13 @@ export function ConversationList({
             title="Nao foi possivel carregar as conversas"
             description="Verifique a conexao com a API e tente novamente."
             action={
-              <button
+              <Button
                 type="button"
                 onClick={onRetry}
-                className="rounded-xl bg-primary px-4 py-2 text-sm font-medium text-white transition hover:bg-primary-hover"
+                className="px-4"
               >
                 Tentar novamente
-              </button>
+              </Button>
             }
           />
         ) : null}
@@ -136,13 +139,14 @@ export function ConversationList({
                             >
                               {formatConversationTime(conversation.lastMessageAt)}
                             </time>
-                            <span
+                            <Badge
                               className={cn(
-                                "inline-flex items-center gap-2 rounded-lg px-2.5 py-1 text-[11px] font-semibold",
+                                "rounded-lg px-2.5 py-1 text-[11px]",
                                 conversation.unread > 0
                                   ? "bg-green-500/10 text-green-500"
                                   : "bg-surface-muted text-muted",
                               )}
+                              variant={conversation.unread > 0 ? "success" : "muted"}
                             >
                               <span
                                 className={cn(
@@ -153,7 +157,7 @@ export function ConversationList({
                               {conversation.unread > 0
                                 ? `${conversation.unread} nao lida${conversation.unread > 1 ? "s" : ""}`
                                 : "Lida"}
-                            </span>
+                            </Badge>
                           </div>
                         </div>
 
