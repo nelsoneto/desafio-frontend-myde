@@ -83,6 +83,9 @@ npm run dev
 npm run build
 npm run start
 npm run lint
+npm run test
+npm run test:watch
+npm run test:e2e
 ```
 
 ### O que cada script faz
@@ -91,6 +94,37 @@ npm run lint
 - `npm run build`: gera a build de produção.
 - `npm run start`: sobe a aplicação já buildada.
 - `npm run lint`: executa o ESLint do projeto.
+- `npm run test`: executa a suite unitária e de componentes com Vitest.
+- `npm run test:watch`: executa o Vitest em modo watch.
+- `npm run test:e2e`: executa os testes E2E com Playwright.
+
+## Testes automatizados
+
+### Stack adotada
+
+- Unitários e componentes: Vitest + React Testing Library.
+- E2E: Playwright com mocks locais da API.
+
+### Instalação do navegador do Playwright
+
+Na primeira execução de E2E, instale o Chromium usado pelo Playwright:
+
+```bash
+npx playwright install chromium
+```
+
+### O que os testes cobrem hoje
+
+- Utilitários de formatação em `src/lib/utils.ts`.
+- Hooks de dados e mutação com React Query.
+- Fluxos do `MessageComposer`, incluindo envio e sugestão de IA.
+- Fluxo principal da inbox no navegador: listar, filtrar, selecionar conversa, enviar mensagem e preencher sugestão.
+
+### Observação sobre os E2E
+
+Os testes E2E não dependem da API AWS real. O Playwright intercepta as requisições e responde com mocks locais, para manter a suíte determinística e repetível.
+
+Para uma explicação detalhada de cada teste e um roteiro rápido para apresentação, consulte [TESTS.md](TESTS.md).
 
 ## Fluxo recomendado para validação local
 
@@ -102,7 +136,10 @@ npm run lint
 6. Teste o botão `Sugerir com IA`.
 7. Teste o envio de mensagem para validar o update otimista.
 8. Execute `npm run lint`.
-9. Execute `npm run build`.
+9. Execute `npm run test`.
+10. Execute `npx playwright install chromium` se for a primeira vez.
+11. Execute `npm run test:e2e`.
+12. Execute `npm run build`.
 
 ## Build e execução de produção
 
@@ -178,5 +215,3 @@ Se o problema persistir, limpe `.next` e reinstale as dependências com o fluxo 
 ## Resumo técnico
 
 Este projeto foi organizado para separar claramente responsabilidade de UI, estado assíncrono e integração com API. A lista de conversas, o chat e o composer são desacoplados em componentes específicos, enquanto os hooks encapsulam o acesso à API e a política de sincronização.
-
-As decisões de arquitetura, os motivos para uso de shadcn/primitives, React Query e IA como apoio de desenvolvimento estão detalhados em [ARQUITETURA.md](ARQUITETURA.md).
