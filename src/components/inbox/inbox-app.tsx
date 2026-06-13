@@ -67,7 +67,7 @@ export function InboxApp() {
                   </p>
 
                   <div className="flex items-start gap-4">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary text-sm font-semibold text-white shadow-sm">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary text-sm font-semibold text-white shadow-sm">
                       {attendantInitials}
                     </div>
 

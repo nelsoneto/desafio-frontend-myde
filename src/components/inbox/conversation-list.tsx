@@ -28,7 +28,7 @@ export function ConversationList({
   onRetry,
 }: ConversationListProps) {
   return (
-    <aside className="flex h-full min-h-0 w-full flex-col rounded-[1.25rem] border border-border bg-surface p-4 shadow-sm lg:max-w-95">
+    <aside className="flex h-full min-h-0 w-full flex-col rounded-xl border border-border bg-surface p-4 shadow-sm lg:max-w-95">
       <div className="px-2 pb-4 pt-2">
         <p className="text-xs font-bold uppercase tracking-[0.28em] text-primary">
           Conversas
@@ -60,7 +60,7 @@ export function ConversationList({
         {isLoading ? (
           <div className="space-y-3 py-2">
             {Array.from({ length: 6 }).map((_, index) => (
-              <div key={index} className="animate-pulse rounded-2xl border border-border bg-surface-muted p-4">
+              <div key={index} className="animate-pulse rounded-xl border border-border bg-surface-muted p-4">
                 <div className="flex items-center gap-3">
                   <Skeleton className="h-12 w-12 rounded-xl bg-surface" />
                   <div className="flex-1 space-y-2">
@@ -107,7 +107,7 @@ export function ConversationList({
                     type="button"
                     onClick={() => onSelectConversation(conversation.id)}
                     className={cn(
-                      "w-full rounded-2xl border p-4 text-left transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-100",
+                      "w-full rounded-xl border p-4 text-left transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-100",
                       isActive
                         ? "border-border bg-surface-muted shadow-sm"
                         : "border-border bg-surface hover:bg-surface-muted",
@@ -116,7 +116,7 @@ export function ConversationList({
                   >
                     <div className="flex items-start gap-3">
                       <div
-                        className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-sm font-semibold text-white"
+                        className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl text-sm font-semibold text-white"
                         style={{ backgroundColor: conversation.avatarColor }}
                       >
                         {getInitials(conversation.contactName)}

@@ -40,7 +40,7 @@ export function ChatPanel({ conversation, messages, isLoading, isError, onBack, 
   }
 
   return (
-    <section className="flex min-h-0 flex-1 flex-col rounded-[1.25rem] border border-border bg-surface shadow-sm">
+    <section className="flex min-h-0 flex-1 flex-col rounded-xl border border-border bg-surface shadow-sm">
       <header className="flex items-center gap-4 border-b border-border px-5 py-4">
         <Button
           type="button"
@@ -53,7 +53,7 @@ export function ChatPanel({ conversation, messages, isLoading, isError, onBack, 
           ←
         </Button>
         <div
-          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-sm font-semibold text-white"
+          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl text-sm font-semibold text-white"
           style={{ backgroundColor: conversation.avatarColor }}
         >
           {getInitials(conversation.contactName)}
@@ -72,7 +72,7 @@ export function ChatPanel({ conversation, messages, isLoading, isError, onBack, 
           <div className="space-y-3">
             {Array.from({ length: 5 }).map((_, index) => (
               <div key={index} className={cn("flex", index % 2 === 0 ? "justify-start" : "justify-end")}>
-                <Skeleton className="h-20 w-full max-w-md rounded-2xl" />
+                <Skeleton className="h-20 w-full max-w-md rounded-xl" />
               </div>
             ))}
           </div>
@@ -101,7 +101,7 @@ export function ChatPanel({ conversation, messages, isLoading, isError, onBack, 
                 <li key={message.id} className={cn("flex", isAgent ? "justify-end" : "justify-start")}>
                   <article
                     className={cn(
-                      "max-w-[85%] rounded-2xl px-4 py-3 shadow-sm sm:max-w-[70%]",
+                      "max-w-[85%] rounded-xl px-4 py-3 shadow-sm sm:max-w-[70%]",
                       isAgent ? "bg-primary text-white" : "bg-surface-muted text-title",
                     )}
                   >
