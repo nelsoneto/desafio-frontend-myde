@@ -6,7 +6,11 @@ import { ConversationList } from "@/components/inbox/conversation-list";
 import { useConversations } from "@/hooks/use-conversations";
 import { useMessages } from "@/hooks/use-messages";
 import { useProfile } from "@/hooks/use-profile";
-import { cn } from "@/lib/utils";
+import { cn, getInitials } from "@/lib/utils";
+
+const attendantName = "Nelson Silva";
+const attendantInitials = getInitials(attendantName);
+const attendantRole = "Suporte NeoFribra";
 
 export function InboxApp() {
   const [selectedConversationId, setSelectedConversationId] = useState<string | null>(null);
@@ -56,17 +60,24 @@ export function InboxApp() {
         <div className={cn("min-h-0 flex-1", selectedConversationId ? "flex" : "hidden lg:flex")}>
           <div className="flex min-h-0 flex-1 flex-col gap-4">
             <section className="rounded-[1.25rem] border border-border bg-surface px-5 py-4 shadow-sm">
-              <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-                <div>
+              <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                <div className="flex flex-col gap-3">
                   <p className="text-xs font-semibold uppercase tracking-[0.28em] text-primary">
                     Painel ativo
                   </p>
-                  <h1 className="mt-2 text-2xl font-semibold tracking-tight text-title">
-                    {profileQuery.data?.name ?? "Carregando atendente..."}
-                  </h1>
-                  <p className="mt-1 text-sm text-muted">
-                    {profileQuery.data?.role ?? "Sincronizando perfil com a API online."}
-                  </p>
+
+                  <div className="flex items-start gap-4">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary text-sm font-semibold text-white shadow-sm">
+                      {attendantInitials}
+                    </div>
+
+                    <div>
+                      <h1 className="text-2xl font-semibold tracking-tight text-title">
+                        {attendantName}
+                      </h1>
+                      <p className="mt-1 text-sm text-muted">{attendantRole}</p>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="flex flex-wrap gap-3 text-sm text-muted">

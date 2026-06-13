@@ -10,7 +10,7 @@ type SidebarStateProps = EmptyStateProps & {
 export function EmptyState({ title, description }: EmptyStateProps) {
   return (
     <div className="flex min-h-0 flex-1 items-center justify-center p-6">
-      <div className="max-w-sm rounded-2xl border border-border bg-surface p-8 text-center shadow-sm">
+      <div className="max-w-md rounded-2xl border border-border bg-surface p-8 text-center shadow-sm">
         <p className="text-sm font-semibold uppercase tracking-[0.24em] text-primary">
           Inbox Myde
         </p>

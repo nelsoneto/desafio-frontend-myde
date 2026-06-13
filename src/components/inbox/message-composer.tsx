@@ -75,7 +75,7 @@ export function MessageComposer({ conversationId, disabled }: MessageComposerPro
               {aiSuggestMutation.isPending ? "Gerando sugestao..." : "Sugerir com IA"}
             </button>
             <span className="text-xs text-muted">
-              A IA preenche o texto; o envio continua manual.
+              A IA preenche o texto, mas o envio continua manual.
             </span>
           </div>
 
