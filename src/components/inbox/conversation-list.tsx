@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Check, CheckCheck, Circle, Search } from "lucide-react";
 import { type Conversation } from "@/lib/types";
 import { cn, formatConversationTime, formatPhoneNumber, getInitials } from "@/lib/utils";
 
@@ -27,8 +28,10 @@ export function ConversationList({
   onSelectConversation,
   onRetry,
 }: ConversationListProps) {
+  const isApiOnline = !isError;
+
   return (
-    <aside className="flex h-full min-h-0 w-full flex-col rounded-xl border border-border bg-surface p-4 shadow-sm lg:max-w-95">
+    <aside className="flex h-full min-h-0 w-full flex-col rounded-lg border border-border bg-surface p-4 shadow-sm lg:max-w-95">
       <div className="px-2 pb-4 pt-2">
         <p className="text-xs font-bold uppercase tracking-[0.28em] text-primary">
           Conversas
@@ -42,17 +45,30 @@ export function ConversationList({
               Busca local com sincronizacao periodica da API.
             </p>
           </div>
-          <Badge variant="success" className="font-medium">
-            Online
+          <Badge
+            variant={isApiOnline ? "success" : "muted"}
+            className={cn(
+              "rounded-md border px-2.5 py-1 font-medium",
+              isApiOnline
+                ? "border-green-500/20 bg-green-500/10 text-green-600"
+                : "border-border bg-surface-muted text-muted",
+            )}
+          >
+            <Circle className="size-3 fill-current stroke-0" />
+            {isApiOnline ? "Online" : "Offline"}
           </Badge>
         </div>
         <label className="mt-5 block">
           <span className="sr-only">Buscar conversas</span>
+          <div className="relative">
+            <Search className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted" />
           <Input
             value={searchTerm}
             onChange={(event) => onSearchTermChange(event.target.value)}
             placeholder="Buscar por nome, telefone ou mensagem"
+            className="pl-11"
           />
+          </div>
         </label>
       </div>
 
@@ -60,9 +76,9 @@ export function ConversationList({
         {isLoading ? (
           <div className="space-y-3 py-2">
             {Array.from({ length: 6 }).map((_, index) => (
-              <div key={index} className="animate-pulse rounded-xl border border-border bg-surface-muted p-4">
+              <div key={index} className="animate-pulse rounded-lg border border-border bg-surface-muted p-4">
                 <div className="flex items-center gap-3">
-                  <Skeleton className="h-12 w-12 rounded-xl bg-surface" />
+                  <Skeleton className="h-12 w-12 rounded-lg bg-surface" />
                   <div className="flex-1 space-y-2">
                     <Skeleton className="h-4 w-2/3 rounded-full bg-surface" />
                     <Skeleton className="h-3 w-full rounded-full bg-surface" />
@@ -107,7 +123,7 @@ export function ConversationList({
                     type="button"
                     onClick={() => onSelectConversation(conversation.id)}
                     className={cn(
-                      "w-full rounded-xl border p-4 text-left transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-100",
+                      "w-full rounded-lg border p-4 text-left transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-100",
                       isActive
                         ? "border-border bg-surface-muted shadow-sm"
                         : "border-border bg-surface hover:bg-surface-muted",
@@ -116,7 +132,7 @@ export function ConversationList({
                   >
                     <div className="flex items-start gap-3">
                       <div
-                        className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl text-sm font-semibold text-white"
+                        className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-sm font-semibold text-white"
                         style={{ backgroundColor: conversation.avatarColor }}
                       >
                         {getInitials(conversation.contactName)}
@@ -141,19 +157,18 @@ export function ConversationList({
                             </time>
                             <Badge
                               className={cn(
-                                "rounded-lg px-2.5 py-1 text-[11px]",
+                                "rounded-md border px-2.5 py-1 text-[11px]",
                                 conversation.unread > 0
-                                  ? "bg-green-500/10 text-green-500"
-                                  : "bg-surface-muted text-muted",
+                                  ? "border-green-500/20 bg-green-500/10 text-green-500"
+                                  : "border-slate-400 bg-slate-300 text-slate-800",
                               )}
                               variant={conversation.unread > 0 ? "success" : "muted"}
                             >
-                              <span
-                                className={cn(
-                                  "h-2 w-2 rounded-sm",
-                                  conversation.unread > 0 ? "bg-green-500" : "bg-white/25",
-                                )}
-                              />
+                              {conversation.unread > 0 ? (
+                                <Check className="size-3.5" />
+                              ) : (
+                                <CheckCheck className="size-3.5" />
+                              )}
                               {conversation.unread > 0
                                 ? `${conversation.unread} nao lida${conversation.unread > 1 ? "s" : ""}`
                                 : "Lida"}

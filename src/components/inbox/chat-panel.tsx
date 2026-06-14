@@ -4,8 +4,9 @@ import { MessageComposer } from "@/components/inbox/message-composer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { AlertCircle, Check, CheckCheck, Cloud } from "lucide-react";
 import { type Conversation, type Message } from "@/lib/types";
-import { cn, formatMessageStatus, formatMessageTime, formatPhoneNumber, getInitials } from "@/lib/utils";
+import { cn, formatMessageTime, formatPhoneNumber, getInitials } from "@/lib/utils";
 
 type ChatPanelProps = {
   conversation: Conversation | null;
@@ -18,6 +19,26 @@ type ChatPanelProps = {
 
 export function ChatPanel({ conversation, messages, isLoading, isError, onBack, onRetry }: ChatPanelProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const isSyncActive = !isError;
+
+  const renderMessageStatus = (status: string) => {
+    switch (status.toLowerCase()) {
+      case "read":
+        return <CheckCheck className="size-3.5" />;
+      case "sent":
+        return <Check className="size-3.5" />;
+      case "failed":
+        return <AlertCircle className="size-3.5" />;
+      default:
+        return <span>{status}</span>;
+    }
+  };
+
+  const hasKnownStatus = (status: string) => {
+    const normalizedStatus = status.toLowerCase();
+
+    return normalizedStatus === "read" || normalizedStatus === "sent" || normalizedStatus === "failed";
+  };
 
   useEffect(() => {
     const element = scrollRef.current;
@@ -40,20 +61,20 @@ export function ChatPanel({ conversation, messages, isLoading, isError, onBack, 
   }
 
   return (
-    <section className="flex min-h-0 flex-1 flex-col rounded-xl border border-border bg-surface shadow-sm">
+    <section className="flex min-h-0 flex-1 flex-col rounded-lg border border-border bg-surface shadow-sm">
       <header className="flex items-center gap-4 border-b border-border px-5 py-4">
         <Button
           type="button"
           onClick={onBack}
           variant="outline"
           size="icon"
-          className="text-muted hover:text-title lg:hidden"
+          className="rounded-md text-muted hover:text-title lg:hidden"
           aria-label="Voltar para a lista de conversas"
         >
-          ←
+          <span aria-hidden="true" className="text-lg leading-none">&lt;</span>
         </Button>
         <div
-          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl text-sm font-semibold text-white"
+          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-sm font-semibold text-white"
           style={{ backgroundColor: conversation.avatarColor }}
         >
           {getInitials(conversation.contactName)}
@@ -62,8 +83,19 @@ export function ChatPanel({ conversation, messages, isLoading, isError, onBack, 
           <h2 className="truncate text-lg font-semibold text-title">{conversation.contactName}</h2>
           <p className="truncate text-sm text-muted">{formatPhoneNumber(conversation.contactPhone)}</p>
         </div>
-        <Badge variant="success" className="hidden font-medium sm:inline-flex">
-          Sincronizacao ativa
+        <Badge
+          variant={isSyncActive ? "success" : "muted"}
+          className={cn(
+            "shrink-0 rounded-md border px-2.5 py-1 font-medium",
+            isSyncActive
+              ? "border-green-500/20 bg-green-500/10 text-green-600"
+              : "border-border bg-surface-muted text-muted",
+          )}
+        >
+          <Cloud className={cn("size-3.5", isSyncActive ? "animate-pulse" : "")} />
+          <span className="hidden sm:inline">
+            {isSyncActive ? "Sincronizando" : "Sincronizacao pausada"}
+          </span>
         </Badge>
       </header>
 
@@ -72,7 +104,7 @@ export function ChatPanel({ conversation, messages, isLoading, isError, onBack, 
           <div className="space-y-3">
             {Array.from({ length: 5 }).map((_, index) => (
               <div key={index} className={cn("flex", index % 2 === 0 ? "justify-start" : "justify-end")}>
-                <Skeleton className="h-20 w-full max-w-md rounded-xl" />
+                <Skeleton className="h-20 w-full max-w-md rounded-lg" />
               </div>
             ))}
           </div>
@@ -101,8 +133,10 @@ export function ChatPanel({ conversation, messages, isLoading, isError, onBack, 
                 <li key={message.id} className={cn("flex", isAgent ? "justify-end" : "justify-start")}>
                   <article
                     className={cn(
-                      "max-w-[85%] rounded-xl px-4 py-3 shadow-sm sm:max-w-[70%]",
-                      isAgent ? "bg-primary text-white" : "bg-surface-muted text-title",
+                      "max-w-[85%] rounded-lg px-4 py-3 shadow-sm sm:max-w-[70%]",
+                      isAgent
+                        ? "bg-primary text-white"
+                        : "bg-surface-muted text-title",
                     )}
                   >
                     <p className="text-sm leading-6">{message.body}</p>
@@ -112,7 +146,7 @@ export function ChatPanel({ conversation, messages, isLoading, isError, onBack, 
                         isAgent ? "text-white/70" : "text-muted",
                       )}
                     >
-                      <span>{formatMessageStatus(message.status)}</span>
+                      {hasKnownStatus(message.status) ? renderMessageStatus(message.status) : null}
                       <time dateTime={message.createdAt}>{formatMessageTime(message.createdAt)}</time>
                     </div>
                   </article>

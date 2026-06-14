@@ -1,6 +1,7 @@
 "use client";
 
 import { useDeferredValue, useMemo, useState } from "react";
+import { Crosshair, MessagesSquare, Wifi, WifiOff } from "lucide-react";
 import { ChatPanel } from "@/components/inbox/chat-panel";
 import { ConversationList } from "@/components/inbox/conversation-list";
 import { useConversations } from "@/hooks/use-conversations";
@@ -81,23 +82,31 @@ export function InboxApp() {
                 </div>
 
                 <div className="flex flex-wrap gap-3 text-sm text-muted">
-                  <div className="rounded-xl bg-surface-muted px-3 py-2">
-                    
-                      {conversationsQuery.data?.length ?? 0} conversas monitoradas
-                    
-                  </div>
-                  <div className="rounded-xl bg-green-500/10 px-3 py-2 text-green-500">
-                      {selectedConversation ? "Chat em foco" : "Nenhum chat selecionado"}
+                  <div className="inline-flex items-center gap-2 rounded-xl bg-surface-muted px-3 py-2 font-medium">
+                    <MessagesSquare className="size-4" />
+                    <span>{conversationsQuery.data?.length ?? 0} conversas monitoradas</span>
                   </div>
                   <div
                     className={cn(
-                      "rounded-xl px-3 py-2",
+                      "inline-flex items-center gap-2 rounded-xl px-3 py-2 font-medium",
+                      selectedConversation
+                        ? "bg-green-500/10 text-green-500"
+                        : "bg-surface-muted text-muted",
+                    )}
+                  >
+                    <Crosshair className="size-4" />
+                    <span>{selectedConversation ? "Chat em foco" : "Nenhum chat selecionado"}</span>
+                  </div>
+                  <div
+                    className={cn(
+                      "inline-flex items-center gap-2 rounded-xl px-3 py-2 font-medium",
                       profileQuery.isError
                         ? "bg-surface-muted text-muted"
                         : "bg-green-500/10 text-green-500",
                     )}
                   >
-                    {profileQuery.isError ? "API instavel" : "API conectada"}
+                    {profileQuery.isError ? <WifiOff className="size-4" /> : <Wifi className="size-4" />}
+                    <span>{profileQuery.isError ? "API instavel" : "API conectada"}</span>
                   </div>
                 </div>
               </div>
